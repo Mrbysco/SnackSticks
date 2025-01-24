@@ -1,0 +1,7 @@
+{
+  "item.snacksticks.snack": "%s Snack",
+  "item.snacksticks.snack_stick": "Snack Stick",
+  "itemGroup.snacksticks": "Snack Sticks",
+  "snacksticks.snack_stick.tooltip": "Snack Type: %s",
+  "snacksticks.snack_stick.tooltip.health": "Health: %s"
+}

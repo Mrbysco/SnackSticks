@@ -1,0 +1,29 @@
+modLoader="javafml"
+loaderVersion="[4,)"
+issueTrackerURL="https://github.com/Mrbysco/SnackSticks/issues"
+license="MIT"
+
+[[mods]]
+modId="snacksticks"
+version="${file.jarVersion}"
+displayName="Snack Sticks"
+displayURL="https://www.curseforge.com/minecraft/mc-mods/snack-sticks"
+authors="Mrbysco, ShyNieke"
+credits="TelepathicGrunt for the idea"
+description='''
+Those mobs look tasty, don't they? Now you can eat them!
+'''
+[[dependencies.snacksticks]]
+modId="minecraft"
+type="required"
+versionRange="[1.21,1.22)"
+ordering="NONE"
+side="BOTH"
+[[dependencies.snacksticks]]
+modId="neoforge"
+type="required"
+versionRange="[21.1.1,)"
+ordering="NONE"
+side="BOTH"
+[[mixins]]
+config="snacksticks.mixins.json"
