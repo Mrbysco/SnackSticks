@@ -57,7 +57,7 @@ public class SnackStickRenderer {
 				float entityHeight = entity.getBbHeight();
 				float scale = 0.5F / Math.max(entityWidth, entityHeight);
 
-				poseStack.translate(0.625D, 0.625D, 0.5D);
+				poseStack.translate(0.6875D, 0.625D, 0.5D);
 				poseStack.scale(scale, scale, scale);
 				poseStack.mulPose(Axis.ZP.rotationDegrees(-45F));
 
