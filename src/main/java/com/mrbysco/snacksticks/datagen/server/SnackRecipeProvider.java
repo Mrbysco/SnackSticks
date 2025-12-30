@@ -11,13 +11,29 @@ import net.minecraft.data.recipes.RecipeProvider;
 import java.util.concurrent.CompletableFuture;
 
 public class SnackRecipeProvider extends RecipeProvider {
-	public SnackRecipeProvider(PackOutput packOutput, CompletableFuture<HolderLookup.Provider> lookupProvider) {
-		super(packOutput, lookupProvider);
+	public SnackRecipeProvider(HolderLookup.Provider provider, RecipeOutput recipeOutput) {
+		super(provider, recipeOutput);
 	}
 
 	@Override
-	protected void buildRecipes(RecipeOutput output, HolderLookup.Provider provider) {
+	protected void buildRecipes() {
 		SnackCampfireCookingRecipeBuilder.cooking(SnackCampfireRecipe::new)
 				.save(output, SnackSticksMod.modLoc("stick_cooking"));
+	}
+
+	public static class Runner extends RecipeProvider.Runner {
+		public Runner(PackOutput output, CompletableFuture<HolderLookup.Provider> completableFuture) {
+			super(output, completableFuture);
+		}
+
+		@Override
+		protected RecipeProvider createRecipeProvider(HolderLookup.Provider provider, RecipeOutput recipeOutput) {
+			return new SnackRecipeProvider(provider, recipeOutput);
+		}
+
+		@Override
+		public String getName() {
+			return "SnackSticks Recipes";
+		}
 	}
 }

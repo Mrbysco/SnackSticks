@@ -5,15 +5,15 @@ import com.mojang.serialization.codecs.RecordCodecBuilder;
 import net.minecraft.network.RegistryFriendlyByteBuf;
 import net.minecraft.network.codec.ByteBufCodecs;
 import net.minecraft.network.codec.StreamCodec;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 
-public record MobData(ResourceLocation entityId, int health) {
+public record MobData(Identifier entityId, int health) {
 	public static final Codec<MobData> CODEC = RecordCodecBuilder.create(inst -> inst.group(
-					ResourceLocation.CODEC.fieldOf("entity_id").forGetter(MobData::entityId),
+					Identifier.CODEC.fieldOf("entity_id").forGetter(MobData::entityId),
 					Codec.INT.fieldOf("health").forGetter(MobData::health))
 			.apply(inst, MobData::new));
 	public static final StreamCodec<RegistryFriendlyByteBuf, MobData> STREAM_CODEC = StreamCodec.composite(
-			ResourceLocation.STREAM_CODEC,
+			Identifier.STREAM_CODEC,
 			p -> p.entityId,
 			ByteBufCodecs.INT,
 			p -> p.health,

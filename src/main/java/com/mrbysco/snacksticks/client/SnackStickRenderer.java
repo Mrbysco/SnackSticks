@@ -7,9 +7,13 @@ import com.mrbysco.snacksticks.registry.SnackDataComponents;
 import com.mrbysco.snacksticks.registry.SnackRegistry;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.MultiBufferSource;
+import net.minecraft.client.renderer.SubmitNodeCollector;
 import net.minecraft.client.renderer.entity.EntityRenderDispatcher;
+import net.minecraft.client.renderer.entity.state.EntityRenderState;
+import net.minecraft.client.renderer.state.CameraRenderState;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.world.entity.Entity;
+import net.minecraft.world.entity.EntitySpawnReason;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.ItemDisplayContext;
 import net.minecraft.world.item.ItemStack;
@@ -31,7 +35,7 @@ public class SnackStickRenderer {
 		entities.clear();
 	}
 
-	public void renderSnack(ItemStack stack, ItemDisplayContext displayContext, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, int packedOverlay) {
+	public void renderSnack(ItemStack stack, ItemDisplayContext displayContext, PoseStack poseStack, MultiBufferSource bufferSource, int packedLight, CameraRenderState cameraRenderState, SubmitNodeCollector nodeCollector) {
 		if (stack.has(SnackDataComponents.MOB_DATA)) {
 			MobData data = stack.get(SnackDataComponents.MOB_DATA);
 			if (data == null) {
@@ -42,7 +46,7 @@ public class SnackStickRenderer {
 			if (entity == null) {
 				Optional<EntityType<?>> optionalType = BuiltInRegistries.ENTITY_TYPE.getOptional(data.entityId());
 				if (optionalType.isPresent() && Minecraft.getInstance().level != null) {
-					Entity newEntity = optionalType.get().create(Minecraft.getInstance().level);
+					Entity newEntity = optionalType.get().create(Minecraft.getInstance().level, EntitySpawnReason.LOAD);
 					if (newEntity != null) {
 						entities.put(entityType, newEntity);
 						entity = entities.getOrDefault(entityType, null);
@@ -69,8 +73,9 @@ public class SnackStickRenderer {
 				if (stack.is(SnackRegistry.SNACK)) {
 					source = new ColoringBufferSource(0.58823529411F, 0.29411764705F, 0, 0.5F, bufferSource);
 				}
-				renderDispatcher.setRenderShadow(false);
-				renderDispatcher.render(entity, 0, 0, 0, 0, 0, poseStack, source, packedLight);
+				EntityRenderState state = renderDispatcher.extractEntity(entity, 0);
+				state.lightCoords = packedLight;
+				renderDispatcher.submit(state, cameraRenderState, 0, 0, 0, poseStack, nodeCollector);
 
 				poseStack.popPose();
 			}

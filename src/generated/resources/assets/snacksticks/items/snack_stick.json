@@ -1,0 +1,9 @@
+{
+  "model": {
+    "type": "minecraft:special",
+    "base": "snacksticks:item/snack_stick",
+    "model": {
+      "type": "snacksticks:snack"
+    }
+  }
+}

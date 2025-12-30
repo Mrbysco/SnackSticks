@@ -1,7 +1,9 @@
 package com.mrbysco.snacksticks.datagen.server.builder;
 
+import net.minecraft.core.registries.Registries;
 import net.minecraft.data.recipes.RecipeOutput;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
 import net.minecraft.world.item.crafting.CookingBookCategory;
 import net.minecraft.world.item.crafting.Recipe;
 
@@ -18,11 +20,11 @@ public class SnackCampfireCookingRecipeBuilder {
 		return new SnackCampfireCookingRecipeBuilder(factory);
 	}
 
-	public void save(RecipeOutput recipeOutput, String recipeId) {
-		this.save(recipeOutput, ResourceLocation.parse(recipeId));
+	public void save(RecipeOutput recipeOutput, Identifier recipeId) {
+		this.save(recipeOutput, ResourceKey.create(Registries.RECIPE, recipeId));
 	}
 
-	public void save(RecipeOutput recipeOutput, ResourceLocation recipeId) {
+	public void save(RecipeOutput recipeOutput, ResourceKey<Recipe<?>> recipeId) {
 		recipeOutput.accept(recipeId, this.factory.apply(CookingBookCategory.FOOD), null);
 	}
 }

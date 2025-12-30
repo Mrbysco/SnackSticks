@@ -1,12 +1,11 @@
 package com.mrbysco.snacksticks;
 
 import com.mojang.logging.LogUtils;
-import com.mrbysco.snacksticks.client.ClientHandler;
 import com.mrbysco.snacksticks.handler.KillHandler;
 import com.mrbysco.snacksticks.registry.SnackDataComponents;
 import com.mrbysco.snacksticks.registry.SnackRecipes;
 import com.mrbysco.snacksticks.registry.SnackRegistry;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
@@ -27,13 +26,9 @@ public class SnackSticksMod {
 		SnackRecipes.RECIPE_SERIALIZERS.register(eventBus);
 
 		NeoForge.EVENT_BUS.register(new KillHandler());
-
-		if (dist.isClient()) {
-			NeoForge.EVENT_BUS.addListener(ClientHandler::onLogOut);
-		}
 	}
 
-	public static ResourceLocation modLoc(String path) {
-		return ResourceLocation.fromNamespaceAndPath(MOD_ID, path);
+	public static Identifier modLoc(String path) {
+		return Identifier.fromNamespaceAndPath(MOD_ID, path);
 	}
 }

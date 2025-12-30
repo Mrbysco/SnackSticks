@@ -29,7 +29,7 @@ public class SnackCampfireRecipe extends CampfireCookingRecipe {
 	}
 
 	@Override
-	public RecipeSerializer<?> getSerializer() {
+	public RecipeSerializer getSerializer() {
 		return SnackRecipes.SNACK_CAMPFIRE_SERIALIZER.get();
 	}
 
@@ -51,7 +51,8 @@ public class SnackCampfireRecipe extends CampfireCookingRecipe {
 	public static class Serializer implements RecipeSerializer<SnackCampfireRecipe> {
 		public static final MapCodec<SnackCampfireRecipe> CODEC = RecordCodecBuilder.mapCodec(
 				instance -> instance.group(
-								CookingBookCategory.CODEC.fieldOf("category").orElse(CookingBookCategory.FOOD).forGetter(recipe -> recipe.category)
+								CookingBookCategory.CODEC.fieldOf("category").orElse(CookingBookCategory.FOOD).
+										forGetter(recipe -> recipe.category)
 						)
 						.apply(instance, SnackCampfireRecipe::new)
 		);

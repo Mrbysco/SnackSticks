@@ -10,9 +10,10 @@ import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.TooltipFlag;
+import net.minecraft.world.item.component.TooltipDisplay;
 
-import java.util.List;
 import java.util.Optional;
+import java.util.function.Consumer;
 
 public class SnackStickItem extends Item {
 	public SnackStickItem(Properties properties) {
@@ -20,8 +21,7 @@ public class SnackStickItem extends Item {
 	}
 
 	@Override
-	public void appendHoverText(ItemStack stack, TooltipContext context, List<Component> tooltipComponents, TooltipFlag tooltipFlag) {
-		super.appendHoverText(stack, context, tooltipComponents, tooltipFlag);
+	public void appendHoverText(ItemStack stack, TooltipContext context, TooltipDisplay tooltipDisplay, Consumer<Component> tooltipAdder, TooltipFlag flag) {
 		if (stack.has(SnackDataComponents.MOB_DATA)) {
 			MobData mobData = stack.get(SnackDataComponents.MOB_DATA);
 			Optional<EntityType<?>> optionalType = BuiltInRegistries.ENTITY_TYPE.getOptional(mobData.entityId());
@@ -40,8 +40,8 @@ public class SnackStickItem extends Item {
 					color = ChatFormatting.RED;
 				}
 				MutableComponent entityDescription = optionalType.get().getDescription().copy().withStyle(color);
-				tooltipComponents.add(Component.translatable("snacksticks.snack_stick.tooltip", entityDescription));
-				tooltipComponents.add(Component.translatable("snacksticks.snack_stick.tooltip.health", Component.literal(String.valueOf(health)).withStyle(color)));
+				tooltipAdder.accept(Component.translatable("snacksticks.snack_stick.tooltip", entityDescription));
+				tooltipAdder.accept(Component.translatable("snacksticks.snack_stick.tooltip.health", Component.literal(String.valueOf(health)).withStyle(color)));
 			}
 		}
 	}

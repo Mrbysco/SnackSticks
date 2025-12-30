@@ -3,9 +3,12 @@ package com.mrbysco.snacksticks.client;
 import com.mojang.blaze3d.vertex.PoseStack;
 import com.mojang.blaze3d.vertex.VertexConsumer;
 import net.minecraft.client.renderer.MultiBufferSource;
-import net.minecraft.client.renderer.RenderType;
+import net.minecraft.client.renderer.rendertype.RenderType;
 import org.jetbrains.annotations.NotNull;
-import org.joml.Matrix4f;
+import org.joml.Matrix3x2fc;
+import org.joml.Matrix4fc;
+import org.joml.Vector3f;
+import org.joml.Vector3fc;
 
 public class ColoringBufferSource implements MultiBufferSource {
 	public final float _r;
@@ -41,16 +44,45 @@ public class ColoringBufferSource implements MultiBufferSource {
 			return buffer.addVertex(x, y, z);
 		}
 
-		@NotNull
 		@Override
-		public VertexConsumer addVertex(@NotNull Matrix4f pose, float x, float y, float z) {
+		public VertexConsumer addVertex(Vector3fc pos) {
+			return buffer.addVertex(pos);
+		}
+
+		@Override
+		public VertexConsumer addVertex(PoseStack.Pose pose, Vector3f pos) {
+			return buffer.addVertex(pose, pos);
+		}
+
+		@Override
+		public VertexConsumer addVertex(PoseStack.Pose pose, float x, float y, float z) {
 			return buffer.addVertex(pose, x, y, z);
+		}
+
+		@Override
+		public VertexConsumer addVertex(Matrix4fc pose, float x, float y, float z) {
+			return buffer.addVertex(pose, x, y, z);
+		}
+
+		@Override
+		public void addVertex(float x, float y, float z, int color, float u, float v, int packedOverlay, int packedLight, float normalX, float normalY, float normalZ) {
+			buffer.addVertex(x, y, z, color, u, v, packedOverlay, packedLight, normalX, normalY, normalZ);
+		}
+
+		@Override
+		public VertexConsumer addVertexWith2DPose(Matrix3x2fc pose, float x, float y) {
+			return buffer.addVertexWith2DPose(pose, x, y);
 		}
 
 		@NotNull
 		@Override
 		public VertexConsumer setColor(int r, int g, int b, int a) {
 			return buffer.setColor((int) (r * _r), (int) (g * _g), (int) (b * _b), (int) (a * _a));
+		}
+
+		@Override
+		public VertexConsumer setColor(int color) {
+			return buffer.setColor(color);
 		}
 
 		@NotNull
@@ -81,6 +113,11 @@ public class ColoringBufferSource implements MultiBufferSource {
 		@Override
 		public VertexConsumer setNormal(float x, float y, float z) {
 			return buffer.setNormal(x, y, z);
+		}
+
+		@Override
+		public VertexConsumer setLineWidth(float lineWidth) {
+			return buffer.setLineWidth(lineWidth);
 		}
 	}
 }

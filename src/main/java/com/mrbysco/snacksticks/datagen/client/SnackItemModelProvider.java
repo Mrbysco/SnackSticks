@@ -1,25 +1,27 @@
 package com.mrbysco.snacksticks.datagen.client;
 
 import com.mrbysco.snacksticks.SnackSticksMod;
+import com.mrbysco.snacksticks.client.renderer.SnackSpecialRenderer;
 import com.mrbysco.snacksticks.registry.SnackRegistry;
+import net.minecraft.client.data.models.BlockModelGenerators;
+import net.minecraft.client.data.models.ItemModelGenerators;
+import net.minecraft.client.data.models.ModelProvider;
+import net.minecraft.client.data.models.model.ItemModelUtils;
+import net.minecraft.client.data.models.model.ModelLocationUtils;
+import net.minecraft.client.renderer.item.ItemModel;
 import net.minecraft.data.PackOutput;
-import net.minecraft.resources.ResourceLocation;
-import net.neoforged.neoforge.client.model.generators.ItemModelProvider;
-import net.neoforged.neoforge.common.data.ExistingFileHelper;
 
-public class SnackItemModelProvider extends ItemModelProvider {
-	public SnackItemModelProvider(PackOutput packOutput, ExistingFileHelper helper) {
-		super(packOutput, SnackSticksMod.MOD_ID, helper);
+public class SnackItemModelProvider extends ModelProvider {
+	public SnackItemModelProvider(PackOutput packOutput) {
+		super(packOutput, SnackSticksMod.MOD_ID);
 	}
 
 	@Override
-	protected void registerModels() {
-		generatedItem(SnackRegistry.SNACK_STICK.getId(), mcLoc("item/stick"));
-		generatedItem(SnackRegistry.SNACK.getId(), mcLoc("item/stick"));
-	}
+	protected void registerModels(BlockModelGenerators blockModels, ItemModelGenerators itemModels) {
+		ItemModel.Unbaked itemmodel$unbaked = ItemModelUtils.specialModel(ModelLocationUtils.getModelLocation(SnackRegistry.SNACK_STICK.get()), new SnackSpecialRenderer.Unbaked(false));
+		itemModels.itemModelOutput.accept(SnackRegistry.SNACK_STICK.get(), itemmodel$unbaked);
 
-	private void generatedItem(ResourceLocation location, ResourceLocation texture) {
-		singleTexture(location.getPath(), ResourceLocation.withDefaultNamespace("item/generated"),
-				"layer0", texture);
+		ItemModel.Unbaked itemmodel$unbaked2 = ItemModelUtils.specialModel(ModelLocationUtils.getModelLocation(SnackRegistry.SNACK_STICK.get()), new SnackSpecialRenderer.Unbaked(true));
+		itemModels.itemModelOutput.accept(SnackRegistry.SNACK.get(), itemmodel$unbaked2);
 	}
 }

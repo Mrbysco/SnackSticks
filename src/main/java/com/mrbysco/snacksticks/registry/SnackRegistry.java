@@ -7,7 +7,7 @@ import com.mrbysco.snacksticks.item.SnackStickItem;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.core.registries.Registries;
 import net.minecraft.network.chat.Component;
-import net.minecraft.resources.ResourceLocation;
+import net.minecraft.resources.Identifier;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTabs;
@@ -41,7 +41,7 @@ public class SnackRegistry {
 			.displayItems((displayParameters, output) -> {
 				Map<EntityType<?>, Integer> entityMap = getVanillaEntities();
 				for (Map.Entry<EntityType<?>, Integer> entry : entityMap.entrySet()) {
-					ResourceLocation entityID = BuiltInRegistries.ENTITY_TYPE.getKey(entry.getKey());
+					Identifier entityID = BuiltInRegistries.ENTITY_TYPE.getKey(entry.getKey());
 					int health = entry.getValue();
 					MobData data = new MobData(
 							entityID,
@@ -67,6 +67,7 @@ public class SnackRegistry {
 		entityMap.put(EntityType.BEE, 10);
 		entityMap.put(EntityType.BLAZE, 20);
 		entityMap.put(EntityType.CAMEL, 32);
+		entityMap.put(EntityType.CAMEL_HUSK, 32);
 		entityMap.put(EntityType.CAT, 10);
 		entityMap.put(EntityType.CAVE_SPIDER, 12);
 		entityMap.put(EntityType.CHICKEN, 4);
@@ -139,6 +140,11 @@ public class SnackRegistry {
 		entityMap.put(EntityType.ZOMBIE_HORSE, 15);
 		entityMap.put(EntityType.ZOMBIE_VILLAGER, 20);
 		entityMap.put(EntityType.ZOMBIFIED_PIGLIN, 20);
+		entityMap.put(EntityType.HAPPY_GHAST, 20);
+		entityMap.put(EntityType.COPPER_GOLEM, 12);
+		entityMap.put(EntityType.NAUTILUS, 15);
+		entityMap.put(EntityType.ZOMBIE_NAUTILUS, 15);
+		entityMap.put(EntityType.PARCHED, 16);
 		return entityMap;
 	}
 }
